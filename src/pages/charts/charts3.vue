@@ -112,7 +112,6 @@
 
             this.axios.post('/measure_stat/stat_average_measure', ops).then(data => {
                 data = data.data || {};
-                console.log(data)
                 let chartsData = {
                         type: 'line',
                         stack: '人数',

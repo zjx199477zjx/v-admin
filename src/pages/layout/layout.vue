@@ -167,7 +167,6 @@
       synConstarts(params) {
         // 同步 Constarts
         Object.assign(Constarts.defaultParam, params);
-        console.log(Constarts.defaultParam)
       },
       getUser() {
         let defaultParam = this.$store.state.info || sessionStorage.getItem('info');
@@ -187,7 +186,7 @@
         this.$store.commit('SET_USER', User);
       },
       handleCommand(command) {
-        console.log(command);
+        // console.log(command);
       },
       toggleMenu() {
         this.isCollapsed = !this.isCollapsed;

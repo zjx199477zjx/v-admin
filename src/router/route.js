@@ -121,7 +121,7 @@ export const appRouter = [
         path: 'render',
         name: 'render',
         title: '渲染表单',
-        component: () => import('src/pages/form/render/render')
+        component: () => import('src/pages/form/render/render')    
       }
     ]
   },

@@ -75,7 +75,6 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(res => {
   loadingInstance.close();
   const jsonData = JSON.parse(Base64.decode(res.data));
-   console.log(jsonData);
   return jsonData;
 }, error => {
   loadingInstance.close();

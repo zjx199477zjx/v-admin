@@ -73,7 +73,6 @@
                     series: chartsData
                 });
                 chartA.hideLoading();
-                console.log(chartsData)
                 this.optionsA.series = chartsData;
                 this.optionsA.xAxis[0].data = title;
             }).catch(error => {

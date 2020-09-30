@@ -21,6 +21,7 @@ export function setMenu (routers, code) {
   * */
   let menu = [];
   routers.forEach(router => {
+    console.log(routers)
     const INDEX = router.children[0];
     if (INDEX.meta.role.indexOf(code) > -1) {
       let obj = {
