@@ -1,7 +1,9 @@
+
 <template>
-  <div class="chart2">
+    <!--组件说明 =>  登录日志统计  by 周继雄  -->
+  <div class="chart5">
       
-    <div slot="header" class="header">各项检测人数分布（单位 : 人）</div>
+    <div slot="header" class="header">用户登录方式统计（单位 : 次）</div>
     <div>
         <vxe-button status="primary" content="今日" @click="today"></vxe-button>
         <vxe-button status="primary" content="本周" @click="toWeek"></vxe-button>
@@ -13,13 +15,12 @@
   </div>
 </template>
 <script>
-  import { curDate, getTimestamp, getTypeName, beforeDay, measureArray } from '../../assets/js/util'
+  import { curDate, getTimestamp, getTypeName, beforeDay } from '../../assets/js/util'
   export default {
     data () {
       return {
         startTime: curDate(-1),
         endTime: curDate(),
-        measureType: measureArray(true),
         optionsA: {
           tooltip: {
             trigger: 'item'
@@ -54,7 +55,7 @@
     methods: {
         onChangeDataSendApi(ops) {
             const chartA = this.$refs['A'];
-            this.axios.post('/measure_stat/stat_num_measure_user', ops).then(data => {
+            this.axios.post('/measure_stat/login_count', ops).then(data => {
                 data = data.data || {};
                 let chartsData = {
                         type: 'bar',
@@ -85,7 +86,7 @@
             let options = {
                 start_time: getTimestamp(this.startTime),
                 end_time: getTimestamp(this.endTime),
-                measure_type: this.measureType,
+                login_type: 'login_idcard&login_faceId&login_username&login_jkwh_qrcode&login_device_qrcode&login_huakeda_qrcode&login_search_history&login_wechat_openid',
                 role: 'ROLE_SUPER_ADMIN'
 
             };
@@ -113,6 +114,10 @@
   };
 </script>
 <style lang="scss" scoped>
+  .chart5{
+        background: #fff;
+        padding: 20px;
+   }
   .header{
     padding: 9px 10px;
     margin-bottom:10px;

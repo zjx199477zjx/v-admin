@@ -1,8 +1,8 @@
 <template>
   <div class="home">
 
-    <baidu-map></baidu-map>
     <chart-bar></chart-bar>
+    <baidu-map></baidu-map>
   </div>
 </template>
 <script>

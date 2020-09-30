@@ -35,6 +35,47 @@ export function setMenu (routers, code) {
   return menu;
 }
 
+export function measureArray (string, value) {
+  if (string === true) return 'temperature&glucose&pressure&oxygen&height&blood_fat&weight&pulse&urinalysis&body_fat&hemoglobin&blood_uric_acid&height_weight&rate&eyesight';
+  if (string && value) {
+    let array = ('temperature&glucose&pressure&oxygen&height&blood_fat&weight&pulse&urinalysis&body_fat&hemoglobin&blood_uric_acid&height_weight&rate&eyesight').split('&');
+    let curArray = [];
+    let curObj = [];
+    array.map(function(item) {
+      curObj = {};
+      curObj[string] = item;
+      curObj[value] = getTypeName(item);
+      curArray.push(curObj)
+    });
+    return curArray;
+  }
+  return ('temperature&glucose&pressure&oxygen&height&blood_fat&weight&pulse&urinalysis&body_fat&hemoglobin&blood_uric_acid&height_weight&rate&eyesight').split('&')
+}
+
+export function reduceArray (array) {
+  return array.reduce((pre, item) => { return pre + item; }, 0);
+}
+
+export function deviceAddressArray () {
+    return [
+      {name: '武汉市中心医院', value: '15050501'},
+      {name: '电科导航', value: '16050601'},
+      {name: '2016年湖北省一体机', value: '16101801'},
+      {name: '武汉市交管局', value: '170110501'},
+      {name: '鄂州工业研究院', value: '17021801'},
+      {name: '上海', value: '17051801'},
+      {name: '社区580', value: '17101801'},
+      {name: '北京中能', value: '17101802'},
+      {name: '同步远方', value: '17102001'},
+      {name: '四川益阳', value: '17111301'},
+      {name: '万达', value: '18032001'},
+      {name: '微至健康服务中心', value: '18080601'},
+      {name: '襄樊', value: '18080601'},
+      {name: '武汉默联', value: '18081301'},
+      {name: '崇仁小学', value: '18091301'}
+    ]
+}
+
 export function curDate(yearVal, monthVal, dateVal) {
     yearVal = yearVal || 0
     monthVal = monthVal || 0
@@ -83,6 +124,14 @@ export function getTypeName(key) {
     case 'oxygen' : return '血氧';
     case 'body_fat' :return '体脂';
     case 'height' :return '身高';
+    case 'login_idcard' : return '身份证登录';
+    case 'login_faceId' : return '人脸识别登录';
+    case 'login_username' : return '用户名登录';
+    case 'login_jkwh_qrcode' : return '健康武汉二维码登录';
+    case 'login_device_qrcode' : return '新海设备二维码登录';
+    case 'login_huakeda_qrcode' : return '华科大二维码登录';
+    case 'login_search_history' : return '身份搜索登录';
+    case 'login_wechat_openid' : return '微信登录';
   }
 }
 
