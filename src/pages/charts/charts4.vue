@@ -9,7 +9,7 @@
         <el-select v-model="addressValue" placeholder="请选择">
             <el-option
             v-for="item in addressArray"
-            :key="item.value"
+            :key="item.keyValue"
             :label="item.name"
             :value="item.value">
             </el-option>

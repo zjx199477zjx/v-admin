@@ -77,73 +77,16 @@
   import {sessionStorage} from 'src/assets/js/storage';
   import logoUrl from '../../assets/images/logo.png';
   import Constarts from '../../Constarts';
+  import {menuList} from '../../data/menu.js';
 
+  let menuData = menuList();
   export default {
     created() {
       this.checkAuth();
     },
     data() {
       return {
-        sider_menu_data: [
-          {
-            path: '/home',
-            title: '首页',
-            icon: 'el-icon-adm-home'
-          },
-          {
-            path: '/tables',
-            title: '表格管理',
-            icon: 'el-icon-adm-linechart',
-            children: [
-              {path: '/tables/basic', title: '基本表格'},
-              {path: '/tables/sort', title: '排序表格'},
-              {path: '/tables/filter', title: '筛选表格'}
-            ]
-          },
-          {
-            path: '/charts',
-            title: '图表管理',
-            icon: 'el-icon-adm-statistics',
-            children: [
-              {path: '/charts/bar', title: '柱状图'},
-              {path: '/charts/line', title: '折线图'},
-              {path: '/charts/pie', title: '饼图'}
-            ]
-          },
-          {
-            path: '/form',
-            title: '表单管理',
-            icon: 'el-icon-adm-form',
-            children: [
-              {path: '/form/render', title: '渲染表单'}
-            ]
-          },
-          {
-            path: '/system/index',
-            title: '系统管理',
-            icon: 'el-icon-adm-project'
-          },
-          {
-            path: '/user/index',
-            title: '用户管理',
-            icon: 'el-icon-adm-user'
-          },
-          {
-            path: '/access/index',
-            title: '权限管理',
-            icon: 'el-icon-adm-organization'
-          },
-          {
-            path: '/log/index',
-            title: '操作日志',
-            icon: 'el-icon-adm-log'
-          },
-          {
-            path: '/test/index',
-            title: '测试',
-            icon: 'el-icon-adm-formsetup'
-          }
-        ],
+        sider_menu_data: menuData,
         logoUrl: logoUrl,
         isCollapsed: false,
         adminMenuShow: false

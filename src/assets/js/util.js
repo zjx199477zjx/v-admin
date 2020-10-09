@@ -59,21 +59,21 @@ export function reduceArray (array) {
 
 export function deviceAddressArray () {
     return [
-      {name: '武汉市中心医院', value: '15050501'},
-      {name: '电科导航', value: '16050601'},
-      {name: '2016年湖北省一体机', value: '16101801'},
-      {name: '武汉市交管局', value: '170110501'},
-      {name: '鄂州工业研究院', value: '17021801'},
-      {name: '上海', value: '17051801'},
-      {name: '社区580', value: '17101801'},
-      {name: '北京中能', value: '17101802'},
-      {name: '同步远方', value: '17102001'},
-      {name: '四川益阳', value: '17111301'},
-      {name: '万达', value: '18032001'},
-      {name: '微至健康服务中心', value: '18080601'},
-      {name: '襄樊', value: '18080601'},
-      {name: '武汉默联', value: '18081301'},
-      {name: '崇仁小学', value: '18091301'}
+      {name: '武汉市中心医院', value: '15050501', keyValue: '1'},
+      {name: '电科导航', value: '16050601', keyValue: '2'},
+      {name: '2016年湖北省一体机', value: '16101801', keyValue: '3'},
+      {name: '武汉市交管局', value: '170110501', keyValue: '4'},
+      {name: '鄂州工业研究院', value: '17021801', keyValue: '5'},
+      {name: '上海', value: '17051801', keyValue: '6'},
+      {name: '社区580', value: '17101801', keyValue: '7'},
+      {name: '北京中能', value: '17101802', keyValue: '8'},
+      {name: '同步远方', value: '17102001', keyValue: '9'},
+      {name: '四川益阳', value: '17111301', keyValue: '10'},
+      {name: '万达', value: '18032001', keyValue: '11'},
+      {name: '微至健康服务中心', value: '18080601', keyValue: '12'},
+      {name: '襄樊', value: '18080601', keyValue: '13'},
+      {name: '武汉默联', value: '18081301', keyValue: '14'},
+      {name: '崇仁小学', value: '18091301', keyValue: '15'}
     ]
 }
 
