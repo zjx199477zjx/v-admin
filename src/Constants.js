@@ -12,7 +12,7 @@ module.exports = {
         layoutPage: 'total, sizes, prev, pager, next, jumper',
         // 上传图片路径
         updatePath: 'SihealIMManagement/file/upload_edu_file'
-    }
+    },
 
     defaultParam: {
         terminal: 'pc',
