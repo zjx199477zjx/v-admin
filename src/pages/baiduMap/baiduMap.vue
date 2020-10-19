@@ -150,7 +150,7 @@
                 return position
             }
 
-             that.axios.post(`/resource/all_device`, {'num_page': -1, 'page_no': -1})
+             that.axios.post(`data_management/resource/all_device`, {'num_page': -1, 'page_no': -1})
                 .then(data => {
                     let arrayData = data.data_array || [];
                     getPoSition(arrayData).then((resData) => {

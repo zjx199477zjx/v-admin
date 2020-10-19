@@ -1,7 +1,7 @@
 <template>
 
   <div class="dialog">
-      <el-dialog title="权限分配" :visible.sync="formVisible">
+      <el-dialog title="权限分配" :visible.sync="formVisible" width="60%">
       <el-form>
           <el-form-item v-for='item in list' :key='item.id'>
               <el-checkbox>{{item.name}}</el-checkbox>

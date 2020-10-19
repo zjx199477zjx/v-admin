@@ -50,16 +50,16 @@
     :total="pageTotal">
   </el-pagination>
   <div class="dialog">
-      <el-dialog :title="curDiaType? '添加账号':'权限分配'" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
+      <el-dialog :title="curDiaType? '添加账号':'权限分配'" :visible.sync="dialogFormVisible" :modal-append-to-body="false"  width="60%">
       <el-form :model="form" v-if="curDiaType">
         <el-form-item label="登录账号" :label-width="formLabelWidth">
-          <el-input v-model="accountArray.username" autocomplete="off"></el-input>
+          <el-input v-model="accountArray.username" autocomplete="off" maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="登录密码" :label-width="formLabelWidth">
-          <el-input v-model="accountArray.password" autocomplete="off"></el-input>
+          <el-input v-model="accountArray.password" autocomplete="off" maxlength="8"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" :label-width="formLabelWidth">
-          <el-input v-model="accountArray.password2" autocomplete="off"></el-input>
+          <el-input v-model="accountArray.password2" autocomplete="off" maxlength="8"></el-input>
         </el-form-item>
       </el-form>
       <el-form v-else >
@@ -70,13 +70,15 @@
           <el-tree
             :data="menuListArray"
             show-checkbox
+            default-expand-all
             node-key="id"
+            ref="tree"
             :props="defaultProps">
           </el-tree>
       </el-form>
       <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="saveFromInfo">确 定</el-button>
       </div>
       </el-dialog>
   </div>
@@ -86,6 +88,7 @@
 <script>
  
   import { menuList, menuTitleFilter } from '../../../data/menu.js';
+  import { reduceString } from '../../../assets/js/util.js'
   // import dialog from '../dialog';
 
   // let menuListArray = menuTitleFilter(menuList());
@@ -131,9 +134,10 @@
     },
     methods: {
       handleEdit(index, row) {
-        console.log(index, row);
+        // console.log(index, row);
       },
       handleDelete(index, row) {
+        // 删除账户
          this.$confirm('此操作将永久删除该账号, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -157,6 +161,21 @@
       accessDist() {
         this.curDiaType = false;
         this.dialogFormVisible = true;
+      },
+      saveFromInfo(index) {
+        // 权限提交
+        if (!this.curDiaType) {
+          let curArr = this.$refs.tree.getCheckedNodes();
+          let ids = reduceString(curArr);
+          // console.log(ids)
+          return;
+        }
+        // 添加用户账号
+        let accountArray = this.accountArray;
+        if (!accountArray.username) this.$message({type: 'error', message: '账号不能为空'});
+        if (!accountArray.password || !accountArray.password2) this.$message({type: 'error', message: '密码不能为空'});
+        if (accountArray.password !== accountArray.password2) this.$message({type: 'error', message: '两次输入的密码不同'});
+        // 提交接口
       }
     }
   };

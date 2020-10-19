@@ -6,7 +6,7 @@ import {
 } from 'element-ui';
 import store from './store/index';
 import router from './router/index';
-import Constarts from './Constarts';
+import Constants from './Constants';
 import { Base64 } from 'js-base64';
 import { sessionStorage } from 'src/assets/js/storage';
 
@@ -16,7 +16,7 @@ if (!store.state.token) {
 
 
 function extendJson(params) {
-  var defaultParam = Constarts.defaultParam || sessionStorage.getItem('info');
+  var defaultParam = Constants.defaultParam || sessionStorage.getItem('info');
   for (let i in defaultParam) {
     if (!params[i]) params[i] = defaultParam[i];
   }
@@ -25,13 +25,13 @@ function extendJson(params) {
 // console.log(Base64)
 // axios 配置 准备拦截器
 const http = axios.create({
-  baseURL: 'http://www.siheal.cn:8086/data_management',
+  baseURL: 'http://www.siheal.cn:8086/',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   },
-  transformRequest: [function (data, headers) {
-      data = extendJson(data);
+  transformRequest: [function (data, headers) {    
+      if (!data.skip) data = extendJson(data);
       data = Base64.encode(JSON.stringify(data));
       headers.token = store.state.token;
     if (headers['Content-type'] === 'multipart/form-data') {

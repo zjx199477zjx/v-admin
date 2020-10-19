@@ -53,7 +53,7 @@
 </template>
 <script>
   import validateCode from 'src/components/ValidateCode/index';
-  // import Constarts from '../../Constarts';
+  // import Constants from '../../Constants';
 
   export default {
     created () {
@@ -118,7 +118,7 @@
         let _this = this;
         const mdPassword = this.$md5(this.$md5(this.form.password));
         const params = {username: this.form.username, password: mdPassword};
-        _this.axios.post('/users/login', params).then(res => {
+        _this.axios.post('data_management/users/login', params).then(res => {
           if (res.code !== 1) return;
             const userinfo = res.userinfo || {};
             _this.$store.commit('SET_TOKEN', userinfo.token);

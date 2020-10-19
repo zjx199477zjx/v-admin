@@ -4,7 +4,7 @@
       <div class="logo-wrapper">
          <el-image
           style="width: 50%;"
-          :src="this.logoUrl"
+          :src="logoUrl"
           ></el-image>
           
       </div>
@@ -22,14 +22,16 @@
             <i :class="item.icon"></i>
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
-          <el-submenu v-else :index="item.path">
+          <el-submenu v-else :index="item.path" :key="index">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{item.title}}</span>
             </template>
             <el-menu-item class="menu-item" v-for="(sub_item, sub_index) in item.children" :index="sub_item.path"
                           :key="sub_index">
-              <span slot="title" style="margin-left:12px;">{{sub_item.title}}</span>
+  
+               <span slot="title" style="margin-left:12px;">{{sub_item.title}}</span>
+               <i :class="sub_item.icon + ' sub-menu-icon'"></i>
             </el-menu-item>
           </el-submenu>
         </template>
@@ -76,7 +78,7 @@
 <script>
   import {sessionStorage} from 'src/assets/js/storage';
   import logoUrl from '../../assets/images/logo.png';
-  import Constarts from '../../Constarts';
+  import Constants from '../../Constants';
   import {menuList} from '../../data/menu.js';
 
   let menuData = menuList();
@@ -103,17 +105,17 @@
         if (!token) {
           this.$router.replace('/login');
         } else {
-          this.synConstarts();
+          this.synConstants();
           this.getUser();
         }
       },
-      synConstarts(params) {
-        // 同步 Constarts
-        Object.assign(Constarts.defaultParam, params);
+      synConstants(params) {
+        // 同步 Constants
+        Object.assign(Constants.defaultParam, params);
       },
       getUser() {
         let defaultParam = this.$store.state.info || sessionStorage.getItem('info');
-        this.synConstarts(defaultParam);
+        this.synConstants(defaultParam);
         let User = {
           id: defaultParam.uid || defaultParam.token,
           uid: defaultParam.uid || '',
@@ -294,5 +296,9 @@
       width: 100%;
       height: 100%;
     }
+  }
+  .sub-menu-icon{
+    font-size: 14px !important;
+    width: 7px !important;
   }
 </style>

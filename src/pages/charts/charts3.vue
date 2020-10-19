@@ -110,7 +110,7 @@
             const chartB = this.$refs['B'];
             const chartC = this.$refs['C'];
 
-            this.axios.post('/measure_stat/stat_average_measure', ops).then(data => {
+            this.axios.post('data_management/measure_stat/stat_average_measure', ops).then(data => {
                 data = data.data || {};
                 let chartsData = {
                         type: 'line',
@@ -131,7 +131,7 @@
                 console.log(error)
             })
 
-            this.axios.post('/measure_stat/stat_variance_measure', ops).then(data => {
+            this.axios.post('data_management/measure_stat/stat_variance_measure', ops).then(data => {
                 data = data.data || {};
                 let chartsData = {
                         type: 'line',

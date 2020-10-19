@@ -96,7 +96,7 @@
             const chartB = this.$refs['B'];
             const chartC = this.$refs['C'];
 
-            this.axios.post('/measure_stat/stat_num_measure_result', ops).then(data => {
+            this.axios.post('data_management/measure_stat/stat_num_measure_result', ops).then(data => {
                 data = data.data || {};
                 let title = []
                 let chartsData = [{

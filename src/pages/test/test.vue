@@ -223,8 +223,6 @@
     },
     methods: {
       handleClick (e) {
-        console.log(e);
-        console.log(this);
       },
       getAddressData () {
         let that = this;

@@ -55,7 +55,7 @@
     methods: {
         onChangeDataSendApi(ops) {
             const chartA = this.$refs['A'];
-            this.axios.post('/measure_stat/login_count', ops).then(data => {
+            this.axios.post('data_management/measure_stat/login_count', ops).then(data => {
                 data = data.data || {};
                 let chartsData = {
                         type: 'bar',

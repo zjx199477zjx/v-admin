@@ -35,6 +35,182 @@ export function setMenu (routers, code) {
   
   return menu;
 }
+ export function formatDate(row, column) {
+   let errorDate = function() {
+      let Y = '2020';
+      let M = '01';
+      let D = '01';
+      let h = '00';
+      let m = '00';
+      let s = '00';
+      column = column.replace('Y', Y)
+      column = column.replace('M', M)
+      column = column.replace('D', D)
+      column = column.replace('h', h)
+      column = column.replace('m', m)
+      column = column.replace('s', s)
+      return column;
+   }
+   if (!row) return errorDate();
+   try {
+      let date = new Date(row);
+      let Y = date.getFullYear();
+      let M = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+      let D = date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' ';
+      let h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+      let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+      let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+      // return Y + M + D + h + m + s;
+      column = column.replace('Y', Y)
+      column = column.replace('M', M)
+      column = column.replace('D', D)
+      column = column.replace('h', h)
+      column = column.replace('m', m)
+      column = column.replace('s', s)
+       return column;
+   } catch (err) {
+     return errorDate();
+   }
+}
+
+export function arrayStringToNumber(str) {
+  str = '' + str || ''
+  if (str.indexOf(',') > 0) str = str.split(',');
+  if (!str || str === '[]') return [];
+  if (str.length === 1) return [+str];
+  let arr = [];
+  (str || []).map(item => {
+    if (!item || !+item) return;
+    arr.push(item);
+  })
+  return arr;
+}
+
+export function pathUpdateJoin(ops) {
+   /*
+  *  ops.vue  this 指向
+  *  ops.path 上传路径
+  *  ops.keys 参数名
+  *  ops.values 参数值
+  *  ops.params 参数对象
+  * */
+  if (!ops.vue) return '';
+  let baseUrl = ((ops.vue.axios || {}).defaults || {}).baseURL;
+  if (ops.params) {
+     baseUrl = baseUrl + ops.path + '?';
+    for (let i in ops.params) {
+      baseUrl += i + '=' + ops.params[i] + '&'
+    }
+    baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('&'));
+    return baseUrl;
+  }
+  if (typeof ops.keys === 'object' && ops.keys[0]) {
+    baseUrl = baseUrl + ops.path + '?';
+    (ops.keys || []).forEach((element, item) => {
+      if (item === (ops.keys).length - 1) {
+        baseUrl += element + '=' + ops.values[item];
+      } else {
+        baseUrl += element + '=' + ops.values[item] + '&'
+      }
+    });
+    return baseUrl;
+  }
+  return baseUrl + ops.path + '?' + ops.keys + '=' + ops.values; 
+}
+
+export function deleteArrayAttr(arr, attr) {
+  let index = arr.indexOf(attr);
+  if (index < 0) return [];
+  arr.splice(index, 1);
+  return arr;
+}
+
+export function underline2Hump(s) {
+  /*
+  *  字符串的下划线格式转驼峰格式，eg：hello_world => helloWorld
+  * */
+  return s.replace(/_(\w)/g, function(all, letter) {
+    return letter.toUpperCase()
+  })
+}
+
+export function hump2Underline(s) {
+   /*
+  *  字符串的驼峰格式转下划线格式，eg：helloWorld => hello_world
+  * */
+  return s.replace(/([A-Z])/g, '_$1').toLowerCase()
+}
+
+export function updateKeyUnder(arr, skip, isExecArrayToString) {
+      /*
+  * 统一将 下划线格式转 字符串的驼峰格式
+  *  arr  需要转换KEY 对象 
+  *  skip  过滤的key
+  * isExecArrayToString  是否只执行 数组转字符串
+  * */
+  let defaultSkip = {};
+  (skip || []).map(item => {
+    defaultSkip[item] = true;
+  });
+  let obj = {};
+  for (let i in arr) {
+    if (!defaultSkip[i]) {
+      try {
+         if (typeof arr[i] === 'object') arr[i] = arr[i].join(',');
+      } catch (err) {
+        arr[i] = arr[i]
+      }
+     isExecArrayToString ? obj[i] = arr[i] : obj[underline2Hump(i)] = arr[i];
+    } 
+  }
+  return obj;
+}
+
+export function updateKeyHump(arr, skip, isExecArrayToString) {
+    /*
+  * 统一将 字符串的驼峰格式转下划线格式
+  *  arr  需要转换KEY 对象 
+  *  skip  过滤的key
+  * isExecArrayToString  是否只执行 数组转字符串
+  * */
+  let defaultSkip = {
+    'disease1Has1': true, 
+    'disease1Has2': true,
+    'disease1Has3': true,
+    'disease1Has4': true,
+    'disease1Has5': true,
+    'disease1Has6': true,
+    'fatherHistory': true,
+    'motherHistory': true,
+    'brotherHistory': true,
+    'childrenHistory': true,
+    'geneticHistory': true
+  };
+  (skip || []).map(item => {
+    defaultSkip[item] = true;
+  });
+  let obj = {};
+  for (let i in arr) {
+    if (!defaultSkip[i]) {
+      try {
+         if (typeof arr[i] === 'object') arr[i] = arr[i].join(',');
+      } catch (err) {
+        arr[i] = arr[i]
+      }
+      isExecArrayToString ? obj[i] = arr[i] : obj[hump2Underline(i)] = arr[i];
+    } 
+  }
+  return obj;
+}
+
+
+export function extend(target, source, socpe) {
+  if (socpe) {
+    Object.assign(target, source);
+    return Object.assign(target, socpe);
+  }
+  return Object.assign(target, source);
+}
 
 export function measureArray (string, value) {
   if (string === true) return 'temperature&glucose&pressure&oxygen&height&blood_fat&weight&pulse&urinalysis&body_fat&hemoglobin&blood_uric_acid&height_weight&rate&eyesight';
@@ -55,6 +231,17 @@ export function measureArray (string, value) {
 
 export function reduceArray (array) {
   return array.reduce((pre, item) => { return pre + item; }, 0);
+}
+
+export function reduceString (array) {
+  let str = '';
+  array.forEach((item, index) => {
+     str += item.id
+    if (index < array.length - 1) {
+       str += ','
+    }  
+  })
+  return str
 }
 
 export function deviceAddressArray () {
@@ -215,6 +402,154 @@ export function mergeBarData (target, data) {
     });
   }
   return target;
+}
+
+export function SFID(card) {
+    let vcity = {
+      11: '北京',
+      12: '天津',
+      13: '河北',
+      14: '山西',
+      15: '内蒙古',
+      21: '辽宁',
+      22: '吉林',
+      23: '黑龙江',
+      31: '上海',
+      32: '江苏',
+      33: '浙江',
+      34: '安徽',
+      35: '福建',
+      36: '江西',
+      37: '山东',
+      41: '河南',
+      42: '湖北',
+      43: '湖南',
+      44: '广东',
+      45: '广西',
+      46: '海南',
+      50: '重庆',
+      51: '四川',
+      52: '贵州',
+      53: '云南',
+      54: '西藏',
+      61: '陕西',
+      62: '甘肃',
+      63: '青海',
+      64: '宁夏',
+      65: '新疆',
+      71: '台湾',
+      81: '香港',
+      82: '澳门',
+      91: '国外'
+   };
+
+  let isCardNo = function(card) {
+      let reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+      if (reg.test(card) === false) {
+          return false;
+      }
+      return true;
+  };
+
+  let checkProvince = function(card) {
+      let province = card.substr(0, 2);
+      if (vcity[province] === undefined) {
+          return false;
+      }
+      return true;
+  };
+
+  let checkBirthday = function(card) {
+      let len = card.length;
+      if (len === 15) {
+          let reFifteen = /^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/; 
+          let arrData = card.match(reFifteen);
+          let year = arrData[2];
+          let month = arrData[3];
+          let day = arrData[4];
+          let birthday = new Date('19' + year + '/' + month + '/' + day);
+          return verifyBirthday('19' + year, month, day, birthday);
+      }
+      if (len === 18) {
+          let reEighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
+          let arrData = card.match(reEighteen);
+          let year = arrData[2];
+          let month = arrData[3];
+          let day = arrData[4];
+          let birthday = new Date(year + '/' + month + '/' + day);
+          return verifyBirthday(year, month, day, birthday);
+      }
+      return false;
+  };
+
+  let verifyBirthday = function(year, month, day, birthday) {
+      year = +year
+      month = +month
+      day = +day
+      let now = new Date();
+      let nowYear = now.getFullYear();
+      if (birthday.getFullYear() === year && (birthday.getMonth() + 1) === month && birthday.getDate() === day) {
+          let time = nowYear - year;
+          if (time >= 3 && time <= 100) {
+              return true;
+          }
+          return false;
+      }
+      return false;
+  };
+
+  let checkParity = function(card) {
+      card = changeFivteenToEighteen(card);
+      let len = card.length;
+      if (len === 18) {
+          let arrInt = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; 
+          let arrCh = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']; 
+          let cardTemp = 0;
+          let i;
+          let valnum; 
+          for (i = 0; i < 17; i++) { 
+              cardTemp += card.substr(i, 1) * arrInt[i]; 
+          } 
+          valnum = arrCh[cardTemp % 11]; 
+          if (valnum === card.substr(17, 1)) {
+              return true;
+          }
+          return false;
+      }
+      return false; 
+  };
+  let changeFivteenToEighteen = function(card) {
+      if (card.length === 15) {
+          let arrInt = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; 
+          let arrCh = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']; 
+          let cardTemp = 0;
+          let i;   
+          card = card.substr(0, 6) + '19' + card.substr(6, card.length - 6);
+          for (i = 0; i < 17; i++) { 
+              cardTemp += card.substr(i, 1) * arrInt[i]; 
+          } 
+          card += arrCh[cardTemp % 11]; 
+          return card;
+      }
+      return card;
+  };
+  
+    if (card === '') {
+          return false;
+      }
+      if (isCardNo(card) === false) {
+          return false;
+      }
+      if (checkProvince(card) === false) {
+          return false;
+      }
+      if (checkBirthday(card) === false) {
+          return false;
+      }
+      if (checkParity(card) === false) {
+        return false;
+      }
+    return true;
 }
 
 export default util;
